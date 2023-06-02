@@ -1,9 +1,5 @@
 using UnityEngine;
-using UnityEngine.TestTools;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using NUnit.Framework;
-using System.Collections;
 
 public class MockRigidbody2D : IRigidbody2D
 {
@@ -25,12 +21,12 @@ public class BallTests
     public void SetUp()
     {
         inputHandler = new InputHandler(new MockInputProvider());
-        gameManager = new GameManager();
+        gameManager = new GameManager(inputHandler);
     }
 
     [Test]
     public void BallNumberOfHitsIncreasedByOneOnPrimaryInput() {
-        BallHandler ballHandler = new BallHandler(new MockRigidbody2D());
+        BallHandler ballHandler = new BallHandler(gameManager, new MockRigidbody2D());
         inputHandler.Update();
 
         Assert.AreEqual(1, ballHandler.NumberOfHits);
@@ -40,7 +36,7 @@ public class BallTests
     public void BallMovesUpWhenPrimaryInput()
     {
         MockRigidbody2D rigidbody2D = new MockRigidbody2D();
-        BallHandler ballHandler = new BallHandler(rigidbody2D);
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D);
         inputHandler.Update();
 
         Assert.AreEqual(100, rigidbody2D.forceAdded.y);

@@ -10,13 +10,13 @@ public class GameManagerTests
     [SetUp]
     public void SetUp() {
         inputHandler = new InputHandler(new MockInputProvider());
-        gameManager = new GameManager();
+        gameManager = new GameManager(inputHandler);
     }
 
     [Test]
     public void Publish_PrimaryInputDuringGameplay_WhenPrimaryInput() {
         bool eventPublished = false;
-        GameManager.OnPrimaryInputDuringGameplay += () => eventPublished = true;
+        gameManager.OnPrimaryInputDuringGameplay += () => eventPublished = true;
 
         inputHandler.Update();
 

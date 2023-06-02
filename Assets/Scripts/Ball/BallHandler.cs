@@ -7,20 +7,21 @@ public class BallHandler : IDisposable
     public int NumberOfHits => _numberOfHits;
 
     private IRigidbody2D _ballRigidbody;
+    private GameManager _gameManager;
 
-    public BallHandler(IRigidbody2D ballRigidbody) {
-        GameManager.OnPrimaryInputDuringGameplay += HandlePrimaryInputDuringGameplay;
+    public BallHandler(GameManager gameManager, IRigidbody2D ballRigidbody) {
+        _gameManager = gameManager;
         _ballRigidbody = ballRigidbody;
+        _gameManager.OnPrimaryInputDuringGameplay += HandlePrimaryInputDuringGameplay;
     }
 
     public void HandlePrimaryInputDuringGameplay() {
-        Debug.Log("BallHandler.HandlePrimaryInputDuringGameplay");
         _ballRigidbody.AddForce(new Vector2(0, 100));
         _numberOfHits++;
     }
 
     public void Dispose()
     {
-        GameManager.OnPrimaryInputDuringGameplay -= HandlePrimaryInputDuringGameplay;
+        _gameManager.OnPrimaryInputDuringGameplay -= HandlePrimaryInputDuringGameplay;
     }
 }

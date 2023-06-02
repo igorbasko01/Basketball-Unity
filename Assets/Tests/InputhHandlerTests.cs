@@ -21,7 +21,7 @@ public class InputHandlerTests
     [Test]
     public void PrimaryInput_WhenMouseButtonUp_EventIsPublished() {
         bool eventPublished = false;
-        InputHandler.OnPrimaryInput += () => eventPublished = true;
+        inputHandler.OnPrimaryInput += () => eventPublished = true;
 
         inputHandler.Update();
 

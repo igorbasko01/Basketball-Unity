@@ -3,6 +3,7 @@ using UnityEngine;
 public class InputHandlerBehaviour : MonoBehaviour
 {
     private InputHandler _inputHandler;
+    public InputHandler InputHandler => _inputHandler;
     void Awake()
     {
         _inputHandler = new InputHandler(new UnityInputProvider());

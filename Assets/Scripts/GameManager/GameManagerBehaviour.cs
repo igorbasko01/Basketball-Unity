@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class GameManagerBehaviour : MonoBehaviour
 {
-    [SerializeField] InputHandlerBehaviour _inputHandlerBehaviour;
     private GameManager _gameManager;
-    public GameManager GameManager => _gameManager;
-    void Awake()
-    {
-        _gameManager = new GameManager(_inputHandlerBehaviour.InputHandler);
+    
+    public void Initialize(GameManager gameManager) {
+        _gameManager = gameManager;
     }
 
     private void OnDestroy() {

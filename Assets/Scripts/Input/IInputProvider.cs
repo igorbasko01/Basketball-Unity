@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IInputProvider
 {
-    bool IsPrimaryInputEnded();
+    bool IsPrimaryInputEnded(out Vector2 release);
 }

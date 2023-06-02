@@ -39,7 +39,7 @@ public class BallTests
         BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D);
         inputHandler.Update();
 
-        Assert.AreEqual(100, rigidbody2D.forceAdded.y);
+        Assert.AreEqual(500, rigidbody2D.forceAdded.y);
     }
 
     [TearDown]

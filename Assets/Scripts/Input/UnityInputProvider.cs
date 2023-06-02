@@ -2,13 +2,20 @@ using UnityEngine;
 
 public class UnityInputProvider : IInputProvider
 {
-    public bool IsPrimaryInputEnded()
+    public bool IsPrimaryInputEnded(out Vector2 release)
     {
-        if (UnityEngine.Input.touchCount > 0)
+        if (Input.touchCount > 0)
         {
-            return UnityEngine.Input.GetTouch(0).phase == TouchPhase.Ended;
+            if (Input.GetTouch(0).phase == TouchPhase.Ended) {
+                release = Input.GetTouch(0).position;
+                return true;
+            }
         }
-
-        return Input.GetMouseButtonUp(0);
+        else if(Input.GetMouseButtonUp(0)) {
+            release = Input.mousePosition;
+            return true;
+        }
+        release = Vector2.zero;
+        return false;
     }
 }

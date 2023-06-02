@@ -16,7 +16,7 @@ public class GameManager : IDisposable
         _inputHandler.OnPrimaryInput -= HandlePrimaryInput;
     }
 
-    private void HandlePrimaryInput() {
+    private void HandlePrimaryInput(Vector2 release) {
         OnPrimaryInputDuringGameplay?.Invoke();
     }
 }

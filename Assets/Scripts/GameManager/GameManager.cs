@@ -4,7 +4,7 @@ using System;
 public class GameManager : IDisposable
 {
     private InputHandler _inputHandler;
-    public event Action OnPrimaryInputDuringGameplay;
+    public event Action<Vector2> OnPrimaryInputDuringGameplay;
 
     public GameManager(InputHandler inputHandler) {
         _inputHandler = inputHandler;
@@ -17,6 +17,6 @@ public class GameManager : IDisposable
     }
 
     private void HandlePrimaryInput(Vector2 release) {
-        OnPrimaryInputDuringGameplay?.Invoke();
+        OnPrimaryInputDuringGameplay?.Invoke(release);
     }
 }

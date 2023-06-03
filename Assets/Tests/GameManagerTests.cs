@@ -15,11 +15,11 @@ public class GameManagerTests
 
     [Test]
     public void Publish_PrimaryInputDuringGameplay_WhenPrimaryInput() {
-        bool eventPublished = false;
-        gameManager.OnPrimaryInputDuringGameplay += () => eventPublished = true;
+        Vector2 coordinates = Vector2.zero;
+        gameManager.OnPrimaryInputDuringGameplay += (Vector2 release) => coordinates = release;
 
         inputHandler.Update();
 
-        Assert.IsTrue(eventPublished);
+        Assert.AreEqual(new Vector2(20, 25), coordinates);
     }
 }

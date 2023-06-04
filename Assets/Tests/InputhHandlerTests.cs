@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class MockInputProvider : IInputProvider
 {
+    private Vector2 _primaryInputCoordinates = new Vector2(20, 25);
+    public void SetPrimaryInputCoordinates(Vector2 coordinates)
+    {
+        _primaryInputCoordinates = coordinates;
+    }
     public bool IsPrimaryInputEnded(out Vector2 release) {
-        release = new Vector2(20, 25);
+        release = _primaryInputCoordinates;
         return true;
     }
 }

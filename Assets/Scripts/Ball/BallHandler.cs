@@ -16,7 +16,12 @@ public class BallHandler : IDisposable
     }
 
     public void HandlePrimaryInputDuringGameplay(Vector2 release) {
-        _ballRigidbody.AddForce(new Vector2(0, 500));
+        Vector2 forceDirection = new Vector2(
+            _ballRigidbody.Position().x - release.x, 
+            _ballRigidbody.Position().y - release.y
+        );
+        _ballRigidbody.AddForce(forceDirection);
+        
         _numberOfHits++;
     }
 

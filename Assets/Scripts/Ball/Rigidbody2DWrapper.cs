@@ -11,4 +11,8 @@ public class Rigidbody2DWrapper : IRigidbody2D
     public void AddForce(Vector2 vector2) {
         _rigidbody2D.AddForce(vector2);
     }
+
+    public Vector2 Position() {
+        return _rigidbody2D.transform.position;
+    }
 }

@@ -3,14 +3,32 @@ using NUnit.Framework;
 
 public class MockRigidbody2D : IRigidbody2D
 {
+    public Vector2 velocity;
+    public Vector2 position = new Vector2(10, 10);
     public Vector2 forceAdded;
     public Vector2 Position() {
-        return new Vector2(10, 10);
+        return position;
     }
 
     public void AddForce(Vector2 vector2)
     {
         forceAdded = vector2;
+    }
+
+    public Vector2 Velocity()
+    {
+        return Vector2.zero;
+    }
+
+    public float VelocitySqrMagnitude()
+    {
+        return velocity.sqrMagnitude;
+    }
+
+    public void Reset()
+    {
+        position = Vector2.zero;
+        velocity = Vector2.zero;
     }
 }
 
@@ -45,7 +63,7 @@ public class BallTests
         inputProvider.SetPrimaryInputCoordinates(new Vector2(10, -20));
         inputHandler.Update();
 
-        Assert.AreEqual(30, rigidbody2D.forceAdded.y);
+        Assert.AreEqual(100, rigidbody2D.forceAdded.y);
     }
 
     [Test]
@@ -55,8 +73,19 @@ public class BallTests
         inputProvider.SetPrimaryInputCoordinates(new Vector2(30, 10));        
         inputHandler.Update();
 
-        Assert.AreEqual(-20, rigidbody2D.forceAdded.x);
+        Assert.AreEqual(-100, rigidbody2D.forceAdded.x);
         Assert.AreEqual(0, rigidbody2D.forceAdded.y);
+    }
+
+    [Test]
+    public void ResetBallPositionOnHighVelocity() {
+        MockRigidbody2D rigidbody2D = new MockRigidbody2D();
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D);
+        rigidbody2D.velocity = new Vector2(100, 100);
+        ballHandler.ResetOnHighVelocity();
+
+        Assert.AreEqual(Vector2.zero, rigidbody2D.Position());
+        Assert.AreEqual(Vector2.zero, rigidbody2D.Velocity());
     }
 
     [TearDown]

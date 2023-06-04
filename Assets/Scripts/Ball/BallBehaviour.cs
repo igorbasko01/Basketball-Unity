@@ -8,6 +8,11 @@ public class BallBehaviour : MonoBehaviour
         _ballHandler = new BallHandler(gameManager, new Rigidbody2DWrapper(GetComponent<Rigidbody2D>()));
     }
 
+    void FixedUpdate()
+    {
+        _ballHandler.ResetOnHighVelocity();
+    }
+
     private void OnDestroy()
     {
         _ballHandler.Dispose();

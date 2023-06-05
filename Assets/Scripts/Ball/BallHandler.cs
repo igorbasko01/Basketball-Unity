@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BallHandler : IDisposable
 {
-    private float _speedLimit = 50f;
+    private float _speedLimit = 10f;
     private int _numberOfHits = 0;
     public int NumberOfHits => _numberOfHits;
 
@@ -16,12 +16,12 @@ public class BallHandler : IDisposable
         _gameManager.OnPrimaryInputDuringGameplay += HandlePrimaryInputDuringGameplay;
     }
 
-    public void HandlePrimaryInputDuringGameplay(Vector2 release) {
+    private void HandlePrimaryInputDuringGameplay(Vector2 worldPosition) {
         Vector2 forceDirection = new Vector2(
-            _ballRigidbody.Position().x - release.x, 
-            _ballRigidbody.Position().y - release.y
+            _ballRigidbody.Position().x - worldPosition.x, 
+            _ballRigidbody.Position().y - worldPosition.y
         );
-        _ballRigidbody.AddForce(forceDirection.normalized * 100f);
+        _ballRigidbody.AddForce(forceDirection.normalized * 300f);
         
         _numberOfHits++;
     }

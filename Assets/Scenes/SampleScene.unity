@@ -485,7 +485,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4504464187307887315, guid: 253b80fe94507444880a02fec40c95c6, type: 3}
       propertyPath: m_GravityScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1728041299239285615, guid: 253b80fe94507444880a02fec40c95c6, type: 3}
       propertyPath: _gameManagerBehaviour

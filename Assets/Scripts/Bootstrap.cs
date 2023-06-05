@@ -11,21 +11,10 @@ public class Bootstrap : MonoBehaviour
     void Awake() {
 
         var inputHandler = new InputHandler(new UnityInputProvider());
-        var gameManager = new GameManager(inputHandler);
+        var gameManager = new GameManager(inputHandler, new CameraService());
 
         _inputHandlerBehaviour.Initialize(inputHandler);
         _gameManagerBehaviour.Initialize(gameManager);
         _ballBehaviour.Initialize(gameManager);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

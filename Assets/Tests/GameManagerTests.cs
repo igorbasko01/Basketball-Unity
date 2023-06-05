@@ -6,11 +6,13 @@ public class GameManagerTests
 {
     private GameManager gameManager;
     private InputHandler inputHandler;
+    private ICameraService cameraService;
 
     [SetUp]
     public void SetUp() {
         inputHandler = new InputHandler(new MockInputProvider());
-        gameManager = new GameManager(inputHandler);
+        cameraService = new MockCameraService();
+        gameManager = new GameManager(inputHandler, cameraService);
     }
 
     [Test]

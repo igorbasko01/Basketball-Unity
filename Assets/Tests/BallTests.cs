@@ -32,19 +32,29 @@ public class MockRigidbody2D : IRigidbody2D
     }
 }
 
+public class MockCameraService : ICameraService
+{
+    public Vector3 ScreenToWorldPoint(Vector2 worldPosition)
+    {
+        return new Vector2(20, 25);
+    }
+}
+
 [TestFixture]
 public class BallTests
 {
     private InputHandler inputHandler;
     private GameManager gameManager;
     private MockInputProvider inputProvider;
+    private ICameraService cameraService;
 
     [SetUp]
     public void SetUp()
     {
         inputProvider = new MockInputProvider();
         inputHandler = new InputHandler(inputProvider);
-        gameManager = new GameManager(inputHandler);
+        cameraService = new MockCameraService();
+        gameManager = new GameManager(inputHandler, cameraService);
     }
 
     [Test]

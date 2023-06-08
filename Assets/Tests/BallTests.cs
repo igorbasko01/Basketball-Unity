@@ -1,10 +1,11 @@
 using UnityEngine;
 using NUnit.Framework;
+using Moq;
 
 public class MockRigidbody2D : IRigidbody2D
 {
     public Vector2 velocity;
-    public Vector2 position = new Vector2(10, 10);
+    public Vector2 position = new Vector2(0, 0);
     public Vector2 forceAdded;
     public Vector2 Position() {
         return position;
@@ -32,29 +33,21 @@ public class MockRigidbody2D : IRigidbody2D
     }
 }
 
-public class MockCameraService : ICameraService
-{
-    public Vector3 ScreenToWorldPoint(Vector2 worldPosition)
-    {
-        return new Vector2(20, 25);
-    }
-}
-
 [TestFixture]
 public class BallTests
 {
     private InputHandler inputHandler;
     private GameManager gameManager;
     private MockInputProvider inputProvider;
-    private ICameraService cameraService;
+    private Mock<ICameraService> cameraService;
 
     [SetUp]
     public void SetUp()
     {
         inputProvider = new MockInputProvider();
         inputHandler = new InputHandler(inputProvider);
-        cameraService = new MockCameraService();
-        gameManager = new GameManager(inputHandler, cameraService);
+        cameraService = new Mock<ICameraService>();
+        gameManager = new GameManager(inputHandler, cameraService.Object);
     }
 
     [Test]
@@ -68,22 +61,27 @@ public class BallTests
     [Test]
     public void BallMovesUpWhenPrimaryInput()
     {
+        var inputClick = new Vector2(0, -20);
+        var mockCameraService = new Mock<ICameraService>();
+        mockCameraService.Setup(x => x.ScreenToWorldPoint(It.IsAny<Vector2>())).Returns(inputClick);
+        var gameManager = new GameManager(inputHandler, mockCameraService.Object);
         MockRigidbody2D rigidbody2D = new MockRigidbody2D();
-        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D);
-        inputProvider.SetPrimaryInputCoordinates(new Vector2(10, -20));
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D, forceMagnitude: 1f);
         inputHandler.Update();
 
-        Assert.AreEqual(100, rigidbody2D.forceAdded.y);
+        Assert.AreEqual(1, rigidbody2D.forceAdded.y);
     }
 
     [Test]
     public void BallForceIsOppositeDirectionFromTheInputCoordinates() {
+        var mockCameraService = new Mock<ICameraService>();
+        mockCameraService.Setup(x => x.ScreenToWorldPoint(It.IsAny<Vector2>())).Returns(new Vector2(10, 0));
+        var gameManager = new GameManager(inputHandler, mockCameraService.Object);
         MockRigidbody2D rigidbody2D = new MockRigidbody2D();
-        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D);
-        inputProvider.SetPrimaryInputCoordinates(new Vector2(30, 10));        
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D, forceMagnitude: 1f);
         inputHandler.Update();
 
-        Assert.AreEqual(-100, rigidbody2D.forceAdded.x);
+        Assert.AreEqual(-1, rigidbody2D.forceAdded.x);
         Assert.AreEqual(0, rigidbody2D.forceAdded.y);
     }
 

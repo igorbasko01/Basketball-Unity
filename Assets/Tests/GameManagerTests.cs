@@ -1,18 +1,20 @@
 using UnityEngine;
 using NUnit.Framework;
+using Moq;
 
 [TestFixture]
 public class GameManagerTests
 {
     private GameManager gameManager;
     private InputHandler inputHandler;
-    private ICameraService cameraService;
+    private Mock<ICameraService> cameraService;
 
     [SetUp]
     public void SetUp() {
         inputHandler = new InputHandler(new MockInputProvider());
-        cameraService = new MockCameraService();
-        gameManager = new GameManager(inputHandler, cameraService);
+        cameraService = new Mock<ICameraService>();
+        cameraService.Setup(camera => camera.ScreenToWorldPoint(It.IsAny<Vector2>())).Returns(new Vector2(20, 25));
+        gameManager = new GameManager(inputHandler, cameraService.Object);
     }
 
     [Test]

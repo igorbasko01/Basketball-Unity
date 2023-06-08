@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICameraService
 {
-    Vector3 ScreenToWorldPoint(Vector2 position);
+    Vector3 ScreenToWorldPoint(Vector2 screenPosition);
 }

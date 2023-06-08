@@ -61,12 +61,12 @@ public class BallTests
     [Test]
     public void BallMovesUpWhenPrimaryInput()
     {
-        var inputClick = new Vector2(0, -20);
+        var inputClick = new Vector2(0, -1);
         var mockCameraService = new Mock<ICameraService>();
         mockCameraService.Setup(x => x.ScreenToWorldPoint(It.IsAny<Vector2>())).Returns(inputClick);
         var gameManager = new GameManager(inputHandler, mockCameraService.Object);
         MockRigidbody2D rigidbody2D = new MockRigidbody2D();
-        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D, forceMagnitude: 1f);
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D, forceMagnitudeMultiplier: 1f);
         inputHandler.Update();
 
         Assert.AreEqual(1, rigidbody2D.forceAdded.y);
@@ -75,13 +75,26 @@ public class BallTests
     [Test]
     public void BallForceIsOppositeDirectionFromTheInputCoordinates() {
         var mockCameraService = new Mock<ICameraService>();
-        mockCameraService.Setup(x => x.ScreenToWorldPoint(It.IsAny<Vector2>())).Returns(new Vector2(10, 0));
+        mockCameraService.Setup(x => x.ScreenToWorldPoint(It.IsAny<Vector2>())).Returns(new Vector2(1, 0));
         var gameManager = new GameManager(inputHandler, mockCameraService.Object);
         MockRigidbody2D rigidbody2D = new MockRigidbody2D();
-        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D, forceMagnitude: 1f);
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D, forceMagnitudeMultiplier: 1f);
         inputHandler.Update();
 
         Assert.AreEqual(-1, rigidbody2D.forceAdded.x);
+        Assert.AreEqual(0, rigidbody2D.forceAdded.y);
+    }
+
+    [Test]
+    public void BallForceHigherWhenInputFurther() {
+        var mockCameraService = new Mock<ICameraService>();
+        mockCameraService.Setup(x => x.ScreenToWorldPoint(It.IsAny<Vector2>())).Returns(new Vector2(10, 0));
+        var gameManager = new GameManager(inputHandler, mockCameraService.Object);
+        MockRigidbody2D rigidbody2D = new MockRigidbody2D();
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D, forceMagnitudeMultiplier: 1f);
+        inputHandler.Update();
+
+        Assert.AreEqual(-10, rigidbody2D.forceAdded.x);
         Assert.AreEqual(0, rigidbody2D.forceAdded.y);
     }
 

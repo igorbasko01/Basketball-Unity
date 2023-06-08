@@ -4,17 +4,17 @@ using UnityEngine;
 public class BallHandler : IDisposable
 {
     private float _speedLimit = 10f;
-    private float _forceMagnitude = 300f;
+    private float _forceMagnitudeMultiplier = 100f;
     private int _numberOfHits = 0;
     public int NumberOfHits => _numberOfHits;
 
     private IRigidbody2D _ballRigidbody;
     private GameManager _gameManager;
 
-    public BallHandler(GameManager gameManager, IRigidbody2D ballRigidbody, float forceMagnitude = 300f) {
+    public BallHandler(GameManager gameManager, IRigidbody2D ballRigidbody, float forceMagnitudeMultiplier = 100f) {
         _gameManager = gameManager;
         _ballRigidbody = ballRigidbody;
-        _forceMagnitude = forceMagnitude;
+        _forceMagnitudeMultiplier = forceMagnitudeMultiplier;
         _gameManager.OnPrimaryInputDuringGameplay += HandlePrimaryInputDuringGameplay;
     }
 
@@ -23,7 +23,8 @@ public class BallHandler : IDisposable
             _ballRigidbody.Position().x - worldPosition.x, 
             _ballRigidbody.Position().y - worldPosition.y
         );
-        _ballRigidbody.AddForce(forceDirection.normalized * _forceMagnitude);
+        var forceMagnitude = Math.Min(forceDirection.magnitude * _forceMagnitudeMultiplier, 400f);
+        _ballRigidbody.AddForce(forceDirection.normalized * forceMagnitude);
         
         _numberOfHits++;
     }

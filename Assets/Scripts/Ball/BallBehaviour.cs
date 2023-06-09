@@ -11,6 +11,7 @@ public class BallBehaviour : MonoBehaviour
     void FixedUpdate()
     {
         _ballHandler.ResetOnHighVelocity();
+        // _ballHandler.StopOnLowVelocity();
     }
 
     private void OnDestroy()

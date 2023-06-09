@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class BallHandler : IDisposable
 {
-    private float _speedLimit = 10f;
+    private float _speedLimit = 20f;
+    private float _lowVelocityLimit = 0.1f;
     private float _forceMagnitudeMultiplier = 100f;
     private int _numberOfHits = 0;
     public int NumberOfHits => _numberOfHits;
@@ -11,7 +12,7 @@ public class BallHandler : IDisposable
     private IRigidbody2D _ballRigidbody;
     private GameManager _gameManager;
 
-    public BallHandler(GameManager gameManager, IRigidbody2D ballRigidbody, float forceMagnitudeMultiplier = 100f) {
+    public BallHandler(GameManager gameManager, IRigidbody2D ballRigidbody, float forceMagnitudeMultiplier = 400f) {
         _gameManager = gameManager;
         _ballRigidbody = ballRigidbody;
         _forceMagnitudeMultiplier = forceMagnitudeMultiplier;
@@ -32,6 +33,12 @@ public class BallHandler : IDisposable
     public void ResetOnHighVelocity() {
         if (_ballRigidbody.VelocitySqrMagnitude() > _speedLimit * _speedLimit) {
             _ballRigidbody.Reset();
+        }
+    }
+
+    public void StopOnLowVelocity() {
+        if (Math.Abs(_ballRigidbody.Velocity().y) < _lowVelocityLimit) {
+            _ballRigidbody.StopVelocity();
         }
     }
 

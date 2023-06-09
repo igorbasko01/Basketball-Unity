@@ -28,4 +28,8 @@ public class Rigidbody2DWrapper : IRigidbody2D
         _rigidbody2D.transform.position = Vector2.zero;
         _rigidbody2D.velocity = Vector2.zero;
     }
+
+    public void StopVelocity() {
+        _rigidbody2D.velocity = Vector2.zero;
+    }
 }

@@ -7,4 +7,5 @@ public interface IRigidbody2D
     Vector2 Velocity();
     float VelocitySqrMagnitude();
     void Reset();
+    void StopVelocity();
 }

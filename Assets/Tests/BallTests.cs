@@ -31,6 +31,10 @@ public class MockRigidbody2D : IRigidbody2D
         position = Vector2.zero;
         velocity = Vector2.zero;
     }
+
+    public void StopVelocity() {
+        velocity = Vector2.zero;
+    }
 }
 
 [TestFixture]
@@ -106,6 +110,16 @@ public class BallTests
         ballHandler.ResetOnHighVelocity();
 
         Assert.AreEqual(Vector2.zero, rigidbody2D.Position());
+        Assert.AreEqual(Vector2.zero, rigidbody2D.Velocity());
+    }
+
+    [Test]
+    public void StopVelocityOnLowVelocity() {
+        MockRigidbody2D rigidbody2D = new MockRigidbody2D();
+        BallHandler ballHandler = new BallHandler(gameManager, rigidbody2D);
+        rigidbody2D.velocity = new Vector2(0.01f, 0.01f);
+        ballHandler.StopOnLowVelocity();
+
         Assert.AreEqual(Vector2.zero, rigidbody2D.Velocity());
     }
 
